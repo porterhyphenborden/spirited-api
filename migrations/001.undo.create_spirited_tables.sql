@@ -1,0 +1,5 @@
+DROP TABLE IF EXISTS cocktail_ing;
+DROP TABLE IF EXISTS ingredients;
+DROP TABLE IF EXISTS cocktails;
+DROP TABLE IF EXISTS units;
+DROP TABLE IF EXISTS users;
