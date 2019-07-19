@@ -16,7 +16,7 @@ const serializeCocktail = cocktail => ({
     garnish: xss(cocktail.garnish),
     glass: xss(cocktail.glass),
     notes: xss(cocktail.notes),
-    ing_instructions: (cocktail.ing_instructions),
+    ing_instructions: cocktail.ing_instructions,
     user_id: cocktail.user_id,
 });
 
@@ -89,7 +89,7 @@ cocktailsRouter
             if (numberOfValues === 0)
                 return res.status(400).json({
                     error: {
-                        message: `Request body must contain a value to update.`
+                        message: `Request body must contain a valid field to update.`
                     }
                 })
 
