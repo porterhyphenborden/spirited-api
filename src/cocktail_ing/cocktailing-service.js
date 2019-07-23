@@ -21,9 +21,10 @@ const CocktailIngService = {
     getByCocktailId(knex, id) {
         return knex
             .select(
+                'i.id AS id',
                 'ci.quantity AS quantity',
                 'u.unit_name AS unit',
-                'i.name AS ingredient'
+                'i.name AS name'
             )
             .from('ingredients AS i')
             .join('cocktail_ing AS ci', 'i.id', 'ci.ingredient_id')

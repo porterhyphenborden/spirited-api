@@ -24,11 +24,27 @@ cocktailsRouter
     .route('/')
     .get((req, res, next) => {
         const knexInstance = req.app.get('db');
-        CocktailsService.getAllCocktails(knexInstance)
-            .then(cocktails => {
-                res.json(cocktails.map(serializeCocktail))
-            })
-            .catch(next)
+        if ((!req.query.name) && (!req.query.ingredient)) {
+            CocktailsService.getAllCocktails(knexInstance)
+                .then(cocktails => {
+                    res.json(cocktails.map(serializeCocktail))
+                })
+                .catch(next)
+        }
+        else if (req.query.name) {
+            CocktailsService.getByName(knexInstance, req.query.name)
+                .then(cocktails => {
+                    res.json(cocktails.map(serializeCocktail))
+                })
+                .catch(next)
+        }
+        else if (req.query.ingredient) {
+            CocktailsService.getByIngredient(knexInstance, req.query.ingredient)
+                .then(cocktails => {
+                    res.json(cocktails.map(serializeCocktail))
+                })
+                .catch(next)
+        }
     })
     .post(jsonParser, (req, res, next) => {
         const { name, description, created_by, instructions, garnish, glass, notes, ing_instructions, user_id } = req.body;

@@ -18,6 +18,32 @@ const CocktailsService = {
             .where('id', id)
             .first()
     },
+    getByName(knex, name) {
+        return knex
+            .from('cocktails')
+            .select('*')
+            .where('name', 'ilike', `%${name}%`)
+    },
+    getByIngredient(knex, ingredient) {
+        return knex
+            .select(
+                'c.id AS id',
+                'c.name AS name',
+                'c.description AS description',
+                'c.created_by AS created_by',
+                'c.instructions AS instructions',
+                'c.garnish AS garnish',
+                'c.glass AS glass',
+                'c.notes AS notes',
+                'c.ing_instructions AS ing_instructions',
+                'c.user_id AS user_id',
+                'i.name AS ingredient'
+            )
+            .from('cocktails AS c')
+            .join('cocktail_ing AS ci', 'c.id', 'ci.cocktail_id')
+            .join('ingredients AS i', 'ci.ingredient_id', 'i.id')
+            .where('i.name', 'ilike', `%${ingredient}%`)
+    },
     deleteCocktail(knex, id) {
         return knex('cocktails')
             .where({ id })
