@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const xss = require('xss');
 const IngredientsService = require('./ingredients-service');
+const { requireAuth } = require('../middleware/jwt-auth')
 
 const ingredientsRouter = express.Router();
 const jsonParser = express.json();
@@ -22,7 +23,7 @@ ingredientsRouter
             })
             .catch(next)
     })
-    .post(jsonParser, (req, res, next) => {
+    .post(requireAuth, jsonParser, (req, res, next) => {
         const { name, instructions } = req.body;
         const newIngredient = { name, instructions };
         if (newIngredient.name == null)

@@ -9,6 +9,7 @@ const ingredientsRouter = require('./ingredients/ingredients-router');
 const usersRouter = require('./users/users-router');
 const cocktailIngRouter = require('./cocktail_ing/cocktailing-router');
 const unitsRouter = require('./units/units-router');
+const authRouter = require('./auth/auth-router')
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use('/spirited/api/ingredients', ingredientsRouter);
 app.use('/spirited/api/users', usersRouter);
 app.use('/spirited/api/cocktail-ingredients', cocktailIngRouter);
 app.use('/spirited/api/units', unitsRouter);
+app.use('/spirited/api/auth', authRouter)
 
 
 app.get('/', (req, res) => {

@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const xss = require('xss');
 const CocktailIngService = require('./cocktailing-service')
+const { requireAuth } = require('../middleware/jwt-auth')
 
 const cocktailIngRouter = express.Router();
 const jsonParser = express.json();
@@ -24,7 +25,7 @@ cocktailIngRouter
             })
             .catch(next)
     })
-    .post(jsonParser, (req, res, next) => {
+    .post(requireAuth, jsonParser, (req, res, next) => {
         const { cocktail_id, ingredient_id, quantity, unit } = req.body;
         const newCocktailIng = { cocktail_id, ingredient_id, quantity, unit };
         

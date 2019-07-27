@@ -3,6 +3,7 @@ const express = require('express');
 const xss = require('xss');
 const CocktailsService = require('./cocktails-service');
 const CocktailIngService = require('../cocktail_ing/cocktailing-service');
+const { requireAuth } = require('../middleware/jwt-auth')
 
 const cocktailsRouter = express.Router();
 const jsonParser = express.json();
@@ -46,13 +47,16 @@ cocktailsRouter
                 .catch(next)
         }
     })
-    .post(jsonParser, (req, res, next) => {
-        const { name, description, created_by, instructions, garnish, glass, notes, ing_instructions, user_id } = req.body;
-        const newCocktail = { name, description, created_by, instructions, garnish, glass, notes, ing_instructions, user_id };
+    .post(requireAuth, jsonParser, (req, res, next) => {
+        const { name, description, created_by, instructions, garnish, glass, notes, ing_instructions } = req.body;
+        const newCocktail = { name, description, created_by, instructions, garnish, glass, notes, ing_instructions };
         if (newCocktail.name == null)
             return res.status(400).json({
                 error: { message: `Missing 'name' in request body.`}
             })
+
+        newCocktail.user_id = req.user.id
+
         CocktailsService.insertCocktail(
             req.app.get('db'),
             newCocktail
@@ -130,5 +134,6 @@ cocktailsRouter
             })
             .catch(next)
     })
+
 
 module.exports = cocktailsRouter;

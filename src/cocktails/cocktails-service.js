@@ -18,6 +18,12 @@ const CocktailsService = {
             .where('id', id)
             .first()
     },
+    getByUserId(knex, userId) {
+        return knex
+            .from('cocktails')
+            .select('*')
+            .where('user_id', userId)
+    },
     getByName(knex, name) {
         return knex
             .from('cocktails')

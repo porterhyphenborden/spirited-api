@@ -2,6 +2,7 @@ const path = require('path')
 const express = require('express')
 const xss = require('xss')
 const UsersService = require('./users-service')
+const CocktailsService = require('../cocktails/cocktails-service')
 
 const usersRouter = express.Router()
 const jsonParser = express.json()
@@ -23,26 +24,46 @@ usersRouter
         .catch(next)
     })
     .post(jsonParser, (req, res, next) => {
-        const { full_name, username, password } = req.body;
-        const newUser = { full_name, username };
-
-        for (const [key, value] of Object.entries(newUser))
-        if (value == null)
-            return res.status(400).json({
-            error: { message: `Missing '${key}' in request body.` }
-            })
-
-        newUser.password = password;    
-
-        UsersService.insertUser(
+        const { password, username, full_name } = req.body
+    
+        for (const field of ['full_name', 'username', 'password'])
+            if (!req.body[field])
+                return res.status(400).json({
+                    error: `Missing '${field}' in request body`
+                })
+        
+        const passwordError = UsersService.validatePassword(password)
+    
+        if (passwordError)
+            return res.status(400).json({ error: passwordError })
+    
+        UsersService.hasUserWithUserName(
             req.app.get('db'),
-            newUser
+            username
         )
-            .then(user => {
-                res
-                .status(201)
-                .location(path.posix.join(req.originalUrl, `/${user.id}`))
-                .json(serializeUser(user))
+          .then(hasUserWithUserName => {
+                if (hasUserWithUserName)
+                return res.status(400).json({ error: `Username already taken` })
+        
+                return UsersService.hashPassword(password)
+                .then(hashedPassword => {
+                    const newUser = {
+                        username,
+                        password: hashedPassword,
+                        full_name,
+                    }
+        
+                    return UsersService.insertUser(
+                        req.app.get('db'),
+                        newUser
+                    )
+                    .then(user => {
+                        res
+                            .status(201)
+                            .location(path.posix.join(req.originalUrl, `/${user.id}`))
+                            .json(serializeUser(user))
+                    })
+                })
             })
             .catch(next)
     })
@@ -100,5 +121,17 @@ usersRouter
         })
         .catch(next)
     })
+
+usersRouter
+    .route('/:id/cocktails')
+    .get((req, res, next) => {
+        const knexInstance = req.app.get('db');
+        CocktailsService.getByUserId(knexInstance, req.params.id)
+            .then(cocktails => {
+                res.json(cocktails)
+            })
+            .catch(next)
+    })
+
 
 module.exports = usersRouter;
