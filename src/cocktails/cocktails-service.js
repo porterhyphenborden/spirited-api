@@ -2,6 +2,12 @@ const CocktailsService = {
     getAllCocktails(knex) {
         return(knex).select('*').from('cocktails')
     },
+    getAllPublicCocktails(knex) {
+        return knex
+            .from('cocktails')
+            .select('*')
+            .where('user_id', null)
+    },
     insertCocktail(knex, newCocktail) {
         return knex
             .insert(newCocktail)
@@ -28,6 +34,7 @@ const CocktailsService = {
         return knex
             .from('cocktails')
             .select('*')
+            .where('user_id', null)
             .where('name', 'ilike', `%${name}%`)
     },
     getByIngredient(knex, ingredient) {
@@ -48,6 +55,7 @@ const CocktailsService = {
             .from('cocktails AS c')
             .join('cocktail_ing AS ci', 'c.id', 'ci.cocktail_id')
             .join('ingredients AS i', 'ci.ingredient_id', 'i.id')
+            .where('c.user_id', null)
             .where('i.name', 'ilike', `%${ingredient}%`)
     },
     deleteCocktail(knex, id) {

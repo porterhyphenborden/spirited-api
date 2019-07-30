@@ -3,7 +3,7 @@ const REGEX_UPPER_LOWER_NUMBER_SPECIAL = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*
 
 const UsersService = {
     getAllUsers(knex) {
-        return knex.select('username').from('users')
+        return(knex).select('*').from('users')
     },
     hasUserWithUserName(knex, username) {
         return knex('users')

@@ -3,13 +3,14 @@ const express = require('express')
 const xss = require('xss')
 const UsersService = require('./users-service')
 const CocktailsService = require('../cocktails/cocktails-service')
+const { requireAuth } = require('../middleware/jwt-auth')
 
 const usersRouter = express.Router()
 const jsonParser = express.json()
 
 const serializeUser = user => ({
     id: user.id,
-    fullname: xss(user.full_name),
+    full_name: xss(user.full_name),
     username: xss(user.username),
 })
 
@@ -18,10 +19,10 @@ usersRouter
     .get((req, res, next) => {
         const knexInstance = req.app.get('db')
         UsersService.getAllUsers(knexInstance)
-        .then(users => {
-            res.json(users.map(serializeUser))
-        })
-        .catch(next)
+            .then(users => {
+                res.json(users.map(serializeUser))
+            })
+            .catch(next)
     })
     .post(jsonParser, (req, res, next) => {
         const { password, username, full_name } = req.body
@@ -100,8 +101,8 @@ usersRouter
         .catch(next)
     })
     .patch(jsonParser, (req, res, next) => {
-        const { full_name, username, password } = req.body;
-        const userToUpdate = { full_name, username, password };
+        const { full_name, username, } = req.body;
+        const userToUpdate = { full_name, username };
 
         const numberOfValues = Object.values(userToUpdate).filter(Boolean).length
         if (numberOfValues === 0)

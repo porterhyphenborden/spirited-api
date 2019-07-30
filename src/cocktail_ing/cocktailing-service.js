@@ -22,6 +22,7 @@ const CocktailIngService = {
         return knex
             .select(
                 'i.id AS id',
+                'ci.id AS ciID',
                 'ci.quantity AS quantity',
                 'u.unit_name AS unit',
                 'i.name AS name'
