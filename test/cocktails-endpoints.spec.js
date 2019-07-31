@@ -1,10 +1,11 @@
 const knex = require('knex');
 const app = require('../src/app');
-const { makeCocktailsArray } = require('./cocktails.fixtures');
-const { makeUsersArray } = require('./users.fixtures');
+const helpers = require('./test-helpers')
 
 describe('Cocktails Endpoints', function() {
     let db
+
+    const { testUsers, testCocktails } = helpers.makeCocktailsFixtures()
 
     before('make knex instance', () => {
         db = knex({
@@ -30,9 +31,7 @@ describe('Cocktails Endpoints', function() {
         })
 
         context(`Given there are cocktails in the database`, () => {
-            const testUsers = makeUsersArray();
-            const testCocktails = makeCocktailsArray();
-
+           
             beforeEach('insert cocktails', () => {
                 return db
                     .into('users')
@@ -63,9 +62,7 @@ describe('Cocktails Endpoints', function() {
         })
 
         context(`Given there are cocktails in the database`, () => {
-            const testUsers = makeUsersArray();
-            const testCocktails = makeCocktailsArray();
-
+           
             beforeEach('insert cocktails', () => {
                 return db
                     .into('users')
@@ -88,7 +85,6 @@ describe('Cocktails Endpoints', function() {
     })
 
     describe(`POST /spirited/api/cocktails`, () => {
-        const testUsers = makeUsersArray();
         beforeEach('insert users', () => {
             return db
                 .into('users')
@@ -109,6 +105,7 @@ describe('Cocktails Endpoints', function() {
             }
             return supertest(app)
                 .post('/spirited/api/cocktails')
+                .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
                 .send(newCocktail)
                 .expect(201)
                 .expect(res => {
@@ -144,6 +141,7 @@ describe('Cocktails Endpoints', function() {
 
             return supertest(app)
                 .post('/spirited/api/cocktails')
+                .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
                 .send(newCocktail)
                 .expect(400, {
                     error: { message: `Missing 'name' in request body.` }
@@ -162,8 +160,6 @@ describe('Cocktails Endpoints', function() {
         })
 
         context(`Given there are cocktails in the database`, () => {
-            const testUsers = makeUsersArray();
-            const testCocktails = makeCocktailsArray();
 
             beforeEach('insert cocktails', () => {
                 return db
@@ -202,8 +198,6 @@ describe('Cocktails Endpoints', function() {
         })
 
         context(`Given there are cocktails in the database`, () => {
-            const testUsers = makeUsersArray();
-            const testCocktails = makeCocktailsArray();
 
             beforeEach('insert cocktails', () => {
                 return db
