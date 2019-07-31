@@ -22,13 +22,13 @@ app.use(morgan(morganOption));
 app.use(cors());
 app.use(helmet());
 
-app.use('/spirited/api/cocktails', cocktailsRouter)
-app.use('/spirited/api/ingredients', ingredientsRouter)
-app.use('/spirited/api/users', usersRouter)
-app.use('/spirited/api/cocktail-ingredients', cocktailIngRouter)
-app.use('/spirited/api/units', unitsRouter)
-app.use('/spirited/api/my-cocktails', myCocktailsRouter)
-app.use('/spirited/api/auth', authRouter)
+app.use('/cocktails', cocktailsRouter)
+app.use('/ingredients', ingredientsRouter)
+app.use('/users', usersRouter)
+app.use('/cocktail-ingredients', cocktailIngRouter)
+app.use('/units', unitsRouter)
+app.use('/my-cocktails', myCocktailsRouter)
+app.use('/auth', authRouter)
 
 
 app.get('/', (req, res) => {
