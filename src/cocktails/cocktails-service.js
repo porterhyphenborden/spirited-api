@@ -54,7 +54,7 @@ const CocktailsService = {
                 'i.name AS ingredient'
             )
             .from('cocktails AS c')
-            .leftJoin('cocktail_ing AS ci', 'c.id', 'ci.cocktail_id')
+            .join('cocktail_ing AS ci', 'c.id', 'ci.cocktail_id')
             .join('ingredients AS i', 'ci.ingredient_id', 'i.id')
             .where('c.user_id', null)
             .where('i.name', 'ilike', `%${ingredient}%`)
