@@ -36,6 +36,7 @@ const CocktailsService = {
             .select('*')
             .where('user_id', null)
             .where('name', 'ilike', `%${name}%`)
+            .distinct('name')
     },
     getByIngredient(knex, ingredient) {
         return knex
@@ -57,6 +58,7 @@ const CocktailsService = {
             .join('ingredients AS i', 'ci.ingredient_id', 'i.id')
             .where('c.user_id', null)
             .where('i.name', 'ilike', `%${ingredient}%`)
+            .distinct('name')
     },
     deleteCocktail(knex, id) {
         return knex('cocktails')
