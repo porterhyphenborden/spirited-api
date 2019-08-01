@@ -42,8 +42,8 @@ cocktailsRouter
         else if (req.query.ingredient) {
             CocktailsService.getByIngredient(knexInstance, req.query.ingredient)
                 .then(cocktails => {
-                    const cocktailsUnique = cocktails.filter((item, index) => {
-                        return cocktails.indexOf(item) >= index;
+                    const cocktailsUnique = cocktails.filter((item, index, arr) => {
+                        return arr.map(mapObj => mapObj.name).indexOf(item.name) === index
                     })
                     res.json(cocktailsUnique.map(serializeCocktail))
                 })
