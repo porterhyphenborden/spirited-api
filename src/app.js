@@ -11,6 +11,7 @@ const cocktailIngRouter = require('./cocktail_ing/cocktailing-router');
 const unitsRouter = require('./units/units-router');
 const authRouter = require('./auth/auth-router')
 const myCocktailsRouter = require('./my-cocktails/mycocktails-router')
+const collectionsRouter = require('./collections/collections-router')
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use('/users', usersRouter)
 app.use('/cocktail-ingredients', cocktailIngRouter)
 app.use('/units', unitsRouter)
 app.use('/my-cocktails', myCocktailsRouter)
+app.use('/collections', collectionsRouter)
 app.use('/auth', authRouter)
 
 

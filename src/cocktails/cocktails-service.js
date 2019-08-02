@@ -30,6 +30,12 @@ const CocktailsService = {
             .select('*')
             .where('user_id', userId)
     },
+    getByCollectionsId(knex, id) {
+        return knex
+            .from('cocktails')
+            .select('*')
+            .where('collection', id)
+    },
     getByName(knex, name) {
         return knex
             .from('cocktails')

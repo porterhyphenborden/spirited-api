@@ -19,6 +19,8 @@ const serializeCocktail = cocktail => ({
     notes: xss(cocktail.notes),
     ing_instructions: cocktail.ing_instructions,
     user_id: cocktail.user_id,
+    collection: cocktail.collection,
+    image_src: xss(cocktail.image_src)
 });
 
 cocktailsRouter
@@ -51,8 +53,8 @@ cocktailsRouter
         }
     })
     .post(requireAuth, jsonParser, (req, res, next) => {
-        const { name, description, created_by, instructions, garnish, glass, notes, ing_instructions } = req.body;
-        const newCocktail = { name, description, created_by, instructions, garnish, glass, notes, ing_instructions };
+        const { name, description, created_by, instructions, garnish, glass, notes, ing_instructions, collection, image_src } = req.body
+        const newCocktail = { name, description, created_by, instructions, garnish, glass, notes, ing_instructions, collection, image_src}
         if (newCocktail.name == null)
             return res.status(400).json({
                 error: { message: `Missing 'name' in request body.`}
@@ -105,8 +107,8 @@ cocktailsRouter
             .catch(next)
     })
     .patch(jsonParser, (req, res, next) => {
-        const { name, description, created_by, instructions, garnish, glass, notes, ing_instructions, user_id } = req.body;
-        const cocktailToUpdate = { name, description, created_by, instructions, garnish, glass, notes, ing_instructions, user_id };
+        const { name, description, created_by, instructions, garnish, glass, notes, ing_instructions, user_id, collection, image_src } = req.body;
+        const cocktailToUpdate = { name, description, created_by, instructions, garnish, glass, notes, ing_instructions, user_id, collection, image_src };
 
         const numberOfValues = Object.values(cocktailToUpdate).filter(Boolean).length
             if (numberOfValues === 0)
