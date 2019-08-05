@@ -22,10 +22,10 @@ VALUES
     ('leaves'),
     ('pieces');
 
-INSERT INTO collections (name, description)
+INSERT INTO collections (name, description, image_src)
 VALUES
-    ('7 Inches From the Midday Sun', 'Try one of these refreshing cocktails, great for cooling down on a hot one!'),
-    ('Mezcal Favorites', 'Whether you''re new to mezcal or swig it from the bottle on a Tuesday afternoon, these cocktails are sure to please.');
+    ('7 Inches From the Midday Sun', 'Try one of these refreshing cocktails, great for cooling down on a hot one!', 'https://i.imgur.com/GYxRTOF.png'),
+    ('Mezcal Favorites', 'Whether you''re new to mezcal or swig it from the bottle on a Tuesday afternoon, these cocktails are sure to please.', 'https://i.imgur.com/YWVmU4m.png');
 
 INSERT INTO cocktails (name, description, created_by, instructions, garnish, glass, notes, ing_instructions, collection, image_src)
 VALUES
@@ -45,7 +45,7 @@ VALUES
     ('Paloma Fresca', 'This paloma chooses to use fresh grapefruit juice instead of grapefruit soda, and we can''t complain.', 'Spirited Editor', 'Shake all ingredients with ice.', 'grapefruit peel', '', 'A blanco tequila is best here.', '', 1, ''),
     ('Painkiller', 'For when you''re feelin tiki, this drink is as island as it gets.', '', 'Shake all ingredients with ice.', 'grated nutmeg', '', '', '', 1, ''),
     ('Fresh Strawberry Daiquiri', 'To be made only when strawberries are in season, preferably picked by hand and still warm from the sun.', 'Spirited Editor', 'Muddle strawberries with sugar until dissolved. Add remaining ingredients and shake with ice.', 'more strawberries', '', 'A good quality, aged rum without too much funk is ideal.', '', NULL, ''),
-    ('Whiskey Smash', 'Sure, mojitos are great, but let''s not forget how great mint is with whiskey!', '', 'Muddle mint with simple, add other ingredients and shake with ice.', 'mint sprig', '', '', '', 1, ''),
+    ('Whiskey Smash', 'Sure, mojitos are great, but let''s not forget how awesome mint is with whiskey!', '', 'Muddle mint with simple, add other ingredients and shake with ice.', 'mint sprig', '', '', '', 1, ''),
     ('Penicillin', 'A wee dram of Islay Scotch goes a long way in this smoky modern classic.', 'Sam Ross', 'Muddle fresh ginger and honey syrup, then add the remaining ingredients, except for the Islay whiskey. Shake with ice and then strain into an ice-filled glass. Float the scotch on top.', 'candied ginger', 'rocks', '', '', NULL, ''),
     ('Sazerac', 'A New Orleans classic.', '', 'Rinse a chilled glass with the absinthe. Stir all other ingredients with ice and then strain into the chilled glass.', 'lemon peel', '', '', '', NULL, '');
 

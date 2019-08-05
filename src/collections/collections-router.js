@@ -10,7 +10,8 @@ const jsonParser = express.json();
 const serializeCollection = collection => ({
     id: collection.id,
     name: xss(collection.name),
-    description: xss(collection.description)
+    description: xss(collection.description),
+    image_src: xss(collection.image_src)
 })
 
 const serializeCocktail = cocktail => ({
@@ -39,8 +40,8 @@ collectionsRouter
             .catch(next)
     })
     .post(jsonParser, (req, res, next) => {
-        const { name, description } = req.body;
-        const newCollection = { name, description };
+        const { name, description, image_src } = req.body;
+        const newCollection = { name, description, image_src };
         if (newCollection.name == null)
             return res.status(400).json({
                 error: { message: `Missing 'name' in request body.`}
@@ -90,8 +91,8 @@ collectionsRouter
             .catch(next)
     })
     .patch(jsonParser, (req, res, next) => {
-        const { name, description } = req.body;
-        const collectionToUpdate = { name, description };
+        const { name, description, image_src } = req.body;
+        const collectionToUpdate = { name, description, image_src };
 
         const numberOfValues = Object.values(cocktailToUpdate).filter(Boolean).length
             if (numberOfValues === 0)
