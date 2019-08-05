@@ -44,4 +44,4 @@ const CocktailIngService = {
     }
 }
 
-module.exports = CocktailIngService;
+module.exports = CocktailIngService

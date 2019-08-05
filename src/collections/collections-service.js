@@ -30,4 +30,4 @@ const CollectionsService = {
     }
 }
 
-module.exports = CollectionsService;
+module.exports = CollectionsService

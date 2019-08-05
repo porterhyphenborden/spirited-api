@@ -1,11 +1,11 @@
-const path = require('path');
-const express = require('express');
-const xss = require('xss');
+const path = require('path')
+const express = require('express')
+const xss = require('xss')
 const CocktailIngService = require('./cocktailing-service')
 const { requireAuth } = require('../middleware/jwt-auth')
 
-const cocktailIngRouter = express.Router();
-const jsonParser = express.json();
+const cocktailIngRouter = express.Router()
+const jsonParser = express.json()
 
 const serializeCocktailIng = cocktailIng => ({
     id: cocktailIng.id,
@@ -13,12 +13,12 @@ const serializeCocktailIng = cocktailIng => ({
     ingredient_id: cocktailIng.ingredient_id,
     quantity: xss(cocktailIng.quantity),
     unit: cocktailIng.unit,
-});
+})
 
 cocktailIngRouter
     .route('/')
     .get((req, res, next) => {
-        const knexInstance = req.app.get('db');
+        const knexInstance = req.app.get('db')
         CocktailIngService.getAllCocktailIng(knexInstance)
             .then(cocktailIngs => {
                 res.json(cocktailIngs.map(serializeCocktailIng))
@@ -26,8 +26,8 @@ cocktailIngRouter
             .catch(next)
     })
     .post(requireAuth, jsonParser, (req, res, next) => {
-        const { cocktail_id, ingredient_id, quantity, unit } = req.body;
-        const newCocktailIng = { cocktail_id, ingredient_id, quantity, unit };
+        const { cocktail_id, ingredient_id, quantity, unit } = req.body
+        const newCocktailIng = { cocktail_id, ingredient_id, quantity, unit }
         
         for (const [key, value] of Object.entries(newCocktailIng))
         if (value == null)
@@ -60,7 +60,7 @@ cocktailIngRouter
                         error: { message: `Cocktail ingredient not found.`}
                     })
                 }
-                res.cocktailIng = cocktailIng;
+                res.cocktailIng = cocktailIng
                 next()
             })
             .catch(next)
@@ -79,8 +79,8 @@ cocktailIngRouter
             .catch(next)
     })
     .patch(jsonParser, (req, res, next) => {
-        const { cocktail_id, ingredient_id, quantity, unit } = req.body;
-        const cocktailIngToUpdate = { cocktail_id, ingredient_id, quantity, unit };
+        const { cocktail_id, ingredient_id, quantity, unit } = req.body
+        const cocktailIngToUpdate = { cocktail_id, ingredient_id, quantity, unit }
 
         const numberOfValues = Object.values(cocktailIngToUpdate).filter(Boolean).length
             if (numberOfValues === 0)
@@ -101,4 +101,4 @@ cocktailIngRouter
             .catch(next)
     })
 
-module.exports = cocktailIngRouter;
+module.exports = cocktailIngRouter

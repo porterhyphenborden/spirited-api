@@ -1,5 +1,5 @@
-const knex = require('knex');
-const app = require('../src/app');
+const knex = require('knex')
+const app = require('../src/app')
 const helpers = require('./test-helpers')
 
 describe('Cocktails Endpoints', function() {
@@ -54,7 +54,7 @@ describe('Cocktails Endpoints', function() {
     describe(`GET /spirited/api/cocktails/:cocktail_id`, () => {
         context(`Given no cocktails`, () => {
             it(`responds with 404`, () => {
-                const cocktailId = 100000;
+                const cocktailId = 100000
                 return supertest(app)
                     .get(`/spirited/api/cocktails/${cocktailId}`)
                     .expect(404, { error: { message: `Cocktail not found.`}})
@@ -75,8 +75,8 @@ describe('Cocktails Endpoints', function() {
             })
 
             it('responds with 200 and the specified cocktial', () => {
-                const cocktailId = 2;
-                const expectedCocktail = testCocktails[cocktailId - 1];
+                const cocktailId = 2
+                const expectedCocktail = testCocktails[cocktailId - 1]
                 return supertest(app)
                     .get(`/spirited/api/cocktails/${cocktailId}`)
                     .expect(200, expectedCocktail)
@@ -152,7 +152,7 @@ describe('Cocktails Endpoints', function() {
     describe(`DELETE /spirited/api/cocktails/:cocktail_id`, () => {
         context(`Given no cocktails`, () => {
             it(`responds with 404`, () => {
-                const cocktailId = 1000000;
+                const cocktailId = 1000000
                 return supertest(app)
                     .delete(`/spirited/api/cocktails/${cocktailId}`)
                     .expect(404, { error: { message: `Cocktail not found.` } })
@@ -173,7 +173,7 @@ describe('Cocktails Endpoints', function() {
             })
 
             it('responds with 204 and removes the cocktail', () => {
-                const idToRemove = 2;
+                const idToRemove = 2
                 const expectedCocktails = testCocktails.filter(cocktail => cocktail.id !== idToRemove)
                 return supertest(app)
                     .delete(`/spirited/api/cocktails/${idToRemove}`)
@@ -190,7 +190,7 @@ describe('Cocktails Endpoints', function() {
     describe(`PATCH /spirited/api/cocktails/:cocktail_id`, () => {
         context(`Given no cocktails`, () => {
             it(`responds with 404`, () => {
-                const cocktailId = 1000000;
+                const cocktailId = 1000000
                 return supertest(app)
                     .patch(`/spirited/api/cocktails/${cocktailId}`)
                     .expect(404, { error: { message: `Cocktail not found.` } })
@@ -211,11 +211,11 @@ describe('Cocktails Endpoints', function() {
             })
 
             it('responds with 204 and updates the cocktail', () => {
-                const idToUpdate = 3;
+                const idToUpdate = 3
                 const updateCocktail = {
                     name: 'New Fashioned',
                     description: 'Even better than the original.'
-                };
+                }
                 const expectedCocktail = {
                     ...testCocktails[idToUpdate - 1],
                     ...updateCocktail
@@ -232,7 +232,7 @@ describe('Cocktails Endpoints', function() {
             })
 
             it('responds with 400 when no fields supplied', () => {
-                const idToUpdate = 3;
+                const idToUpdate = 3
                 return supertest(app)
                     .patch(`/spirited/api/cocktails/${idToUpdate}`)
                     .send({ irrelevantField: 'nonsense' })

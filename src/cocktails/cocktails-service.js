@@ -77,4 +77,4 @@ const CocktailsService = {
     }
 }
 
-module.exports = CocktailsService;
+module.exports = CocktailsService

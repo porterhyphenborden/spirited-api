@@ -7,4 +7,4 @@ const MyCocktailsService = {
     },
 }
 
-module.exports = MyCocktailsService;
+module.exports = MyCocktailsService

@@ -1,11 +1,11 @@
-const path = require('path');
-const express = require('express');
-const xss = require('xss');
+const path = require('path')
+const express = require('express')
+const xss = require('xss')
 const CollectionsService = require('./collections-service')
 const CocktailsService = require('../cocktails/cocktails-service')
 
-const collectionsRouter = express.Router();
-const jsonParser = express.json();
+const collectionsRouter = express.Router()
+const jsonParser = express.json()
 
 const serializeCollection = collection => ({
     id: collection.id,
@@ -32,7 +32,7 @@ const serializeCocktail = cocktail => ({
 collectionsRouter
     .route('/')
     .get((req, res, next) => {
-        const knexInstance = req.app.get('db');
+        const knexInstance = req.app.get('db')
         CollectionsService.getAllCollections(knexInstance)
             .then(collections => {
                 res.json(collections.map(serializeCollection))
@@ -40,8 +40,8 @@ collectionsRouter
             .catch(next)
     })
     .post(jsonParser, (req, res, next) => {
-        const { name, description, image_src } = req.body;
-        const newCollection = { name, description, image_src };
+        const { name, description, image_src } = req.body
+        const newCollection = { name, description, image_src }
         if (newCollection.name == null)
             return res.status(400).json({
                 error: { message: `Missing 'name' in request body.`}
@@ -72,7 +72,7 @@ collectionsRouter
                         error: { message: `Collection not found.`}
                     })
                 }
-                res.collection = collection;
+                res.collection = collection
                 next()
             })
             .catch(next)
@@ -91,8 +91,8 @@ collectionsRouter
             .catch(next)
     })
     .patch(jsonParser, (req, res, next) => {
-        const { name, description, image_src } = req.body;
-        const collectionToUpdate = { name, description, image_src };
+        const { name, description, image_src } = req.body
+        const collectionToUpdate = { name, description, image_src }
 
         const numberOfValues = Object.values(cocktailToUpdate).filter(Boolean).length
             if (numberOfValues === 0)
@@ -116,7 +116,7 @@ collectionsRouter
 collectionsRouter
     .route('/:id/cocktails')
     .get((req, res, next) => {
-        const knexInstance = req.app.get('db');
+        const knexInstance = req.app.get('db')
         CocktailsService.getByCollectionsId(knexInstance, req.params.id)
             .then(cocktails => {
                 res.json(cocktails.map(serializeCocktail))
@@ -124,4 +124,4 @@ collectionsRouter
             .catch(next)
     })
 
-module.exports = collectionsRouter;
+module.exports = collectionsRouter

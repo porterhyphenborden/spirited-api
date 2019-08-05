@@ -82,7 +82,7 @@ usersRouter
                     error: { message: `User not found.` }
                 })
                 }
-                res.user = user;
+                res.user = user
                 next()
             })
             .catch(next)
@@ -101,8 +101,8 @@ usersRouter
         .catch(next)
     })
     .patch(jsonParser, (req, res, next) => {
-        const { full_name, username, } = req.body;
-        const userToUpdate = { full_name, username };
+        const { full_name, username, } = req.body
+        const userToUpdate = { full_name, username }
 
         const numberOfValues = Object.values(userToUpdate).filter(Boolean).length
         if (numberOfValues === 0)
@@ -126,7 +126,7 @@ usersRouter
 usersRouter
     .route('/:id/cocktails')
     .get((req, res, next) => {
-        const knexInstance = req.app.get('db');
+        const knexInstance = req.app.get('db')
         CocktailsService.getByUserId(knexInstance, req.params.id)
             .then(cocktails => {
                 res.json(cocktails)
@@ -135,4 +135,4 @@ usersRouter
     })
 
 
-module.exports = usersRouter;
+module.exports = usersRouter

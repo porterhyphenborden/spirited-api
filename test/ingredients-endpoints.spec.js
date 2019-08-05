@@ -1,5 +1,5 @@
-const knex = require('knex');
-const app = require('../src/app');
+const knex = require('knex')
+const app = require('../src/app')
 const helpers = require('./test-helpers')
 
 describe('Ingredients Endpoints', function() {
@@ -49,7 +49,7 @@ describe('Ingredients Endpoints', function() {
     describe(`GET /spirited/api/ingredients/:ingredient_id`, () => {
         context(`Given no ingredients`, () => {
             it(`responds with 404`, () => {
-                const ingredientId = 100000;
+                const ingredientId = 100000
                 return supertest(app)
                     .get(`/spirited/api/ingredients/${ingredientId}`)
                     .expect(404, { error: { message: `Ingredient not found.`}})
@@ -65,8 +65,8 @@ describe('Ingredients Endpoints', function() {
             })
 
             it('responds with 200 and the specified ingredient', () => {
-                const ingredientId = 2;
-                const expectedIngredient = testIngredients[ingredientId - 1];
+                const ingredientId = 2
+                const expectedIngredient = testIngredients[ingredientId - 1]
                 return supertest(app)
                     .get(`/spirited/api/ingredients/${ingredientId}`)
                     .expect(200, expectedIngredient)
@@ -122,7 +122,7 @@ describe('Ingredients Endpoints', function() {
     describe(`DELETE /spirited/api/ingredients/:ingredient_id`, () => {
         context(`Given no ingredients`, () => {
             it(`responds with 404`, () => {
-                const ingredientId = 1000000;
+                const ingredientId = 1000000
                 return supertest(app)
                     .delete(`/spirited/api/ingredients/${ingredientId}`)
                     .expect(404, { error: { message: `Ingredient not found.` } })
@@ -138,7 +138,7 @@ describe('Ingredients Endpoints', function() {
             })
 
             it('responds with 204 and removes the ingredient', () => {
-                const idToRemove = 2;
+                const idToRemove = 2
                 const expectedIngredients = testIngredients.filter(ingredient => ingredient.id !== idToRemove)
                 return supertest(app)
                     .delete(`/spirited/api/ingredients/${idToRemove}`)
@@ -155,7 +155,7 @@ describe('Ingredients Endpoints', function() {
     describe(`PATCH /spirited/api/ingredients/:ingredient_id`, () => {
         context(`Given no ingredients`, () => {
             it(`responds with 404`, () => {
-                const ingredientId = 1000000;
+                const ingredientId = 1000000
                 return supertest(app)
                     .patch(`/spirited/api/ingredients/${ingredientId}`)
                     .expect(404, { error: { message: `Ingredient not found.` } })
@@ -176,11 +176,11 @@ describe('Ingredients Endpoints', function() {
             })
 
             it('responds with 204 and updates the ingredient', () => {
-                const idToUpdate = 3;
+                const idToUpdate = 3
                 const updateIngredient = {
                     name: 'rum',
                     instructions: 'none'
-                };
+                }
                 const expectedIngredient = {
                     ...testIngredients[idToUpdate - 1],
                     ...updateIngredient
@@ -197,7 +197,7 @@ describe('Ingredients Endpoints', function() {
             })
 
             it('responds with 400 when no fields supplied', () => {
-                const idToUpdate = 3;
+                const idToUpdate = 3
                 return supertest(app)
                     .patch(`/spirited/api/ingredients/${idToUpdate}`)
                     .send({ irrelevantField: 'nonsense' })

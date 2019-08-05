@@ -1,5 +1,5 @@
-const knex = require('knex');
-const app = require('../src/app');
+const knex = require('knex')
+const app = require('../src/app')
 const helpers = require('./test-helpers')
 
 describe('Units Endpoints', function() {
@@ -49,7 +49,7 @@ describe('Units Endpoints', function() {
     describe(`GET /spirited/api/units/:unit_id`, () => {
         context(`Given no units`, () => {
             it(`responds with 404`, () => {
-                const unitId = 100000;
+                const unitId = 100000
                 return supertest(app)
                     .get(`/spirited/api/units/${unitId}`)
                     .expect(404, { error: { message: `Unit not found.`}})
@@ -65,8 +65,8 @@ describe('Units Endpoints', function() {
             })
 
             it('responds with 200 and the specified unit', () => {
-                const unitId = 2;
-                const expectedUnit = testUnits[unitId - 1];
+                const unitId = 2
+                const expectedUnit = testUnits[unitId - 1]
                 return supertest(app)
                     .get(`/spirited/api/units/${unitId}`)
                     .expect(200, expectedUnit)
@@ -99,7 +99,7 @@ describe('Units Endpoints', function() {
     describe(`DELETE /spirited/api/units/:unit_id`, () => {
         context(`Given no units`, () => {
             it(`responds with 404`, () => {
-                const unitId = 1000000;
+                const unitId = 1000000
                 return supertest(app)
                     .delete(`/spirited/api/units/${unitId}`)
                     .expect(404, { error: { message: `Unit not found.` } })
@@ -115,7 +115,7 @@ describe('Units Endpoints', function() {
             })
 
             it('responds with 204 and removes the unit', () => {
-                const idToRemove = 2;
+                const idToRemove = 2
                 const expectedUnits = testUnits.filter(unit => unit.id !== idToRemove)
                 return supertest(app)
                     .delete(`/spirited/api/units/${idToRemove}`)
@@ -132,7 +132,7 @@ describe('Units Endpoints', function() {
     describe(`PATCH /spirited/api/units/:unit_id`, () => {
         context(`Given no units`, () => {
             it(`responds with 404`, () => {
-                const unitId = 1000000;
+                const unitId = 1000000
                 return supertest(app)
                     .patch(`/spirited/api/units/${unitId}`)
                     .expect(404, { error: { message: `Unit not found.` } })
@@ -148,10 +148,10 @@ describe('Units Endpoints', function() {
             })
 
             it('responds with 204 and updates the unit', () => {
-                const idToUpdate = 3;
+                const idToUpdate = 3
                 const updateUnit = {
                     unit_name: 'dashes'
-                };
+                }
                 const expectedUnit = {
                     ...testUnits[idToUpdate - 1],
                     ...updateUnit
@@ -168,7 +168,7 @@ describe('Units Endpoints', function() {
             })
 
             it('responds with 400 when no fields supplied', () => {
-                const idToUpdate = 3;
+                const idToUpdate = 3
                 return supertest(app)
                     .patch(`/spirited/api/units/${idToUpdate}`)
                     .send({ irrelevantField: 'nonsense' })

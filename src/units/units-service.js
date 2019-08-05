@@ -30,4 +30,4 @@ const UnitsService = {
     }
 }
 
-module.exports = UnitsService;
+module.exports = UnitsService

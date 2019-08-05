@@ -8,7 +8,7 @@ const myCocktailsRouter = express.Router()
 myCocktailsRouter
 .route('/')
 .get(requireAuth, (req, res, next) => {
-        const knexInstance = req.app.get('db');
+        const knexInstance = req.app.get('db')
         userId = req.user.id
         MyCocktailsService.getByUserId(knexInstance, userId)
             .then(cocktails => {
@@ -17,4 +17,4 @@ myCocktailsRouter
             .catch(next)
 })
 
-module.exports = myCocktailsRouter;
+module.exports = myCocktailsRouter

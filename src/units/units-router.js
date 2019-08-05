@@ -1,20 +1,20 @@
-const path = require('path');
-const express = require('express');
-const xss = require('xss');
-const UnitsService = require('./units-service');
+const path = require('path')
+const express = require('express')
+const xss = require('xss')
+const UnitsService = require('./units-service')
 
-const unitsRouter = express.Router();
-const jsonParser = express.json();
+const unitsRouter = express.Router()
+const jsonParser = express.json()
 
 const serializeUnit = unit => ({
     id: unit.id,
     unit_name: xss(unit.unit_name),
-});
+})
 
 unitsRouter
     .route('/')
     .get((req, res, next) => {
-        const knexInstance = req.app.get('db');
+        const knexInstance = req.app.get('db')
         UnitsService.getAllUnits(knexInstance)
             .then(units => {
                 res.json(units.map(serializeUnit))
@@ -22,8 +22,8 @@ unitsRouter
             .catch(next)
     })
     .post(jsonParser, (req, res, next) => {
-        const { unit_name } = req.body;
-        const newUnit = { unit_name };
+        const { unit_name } = req.body
+        const newUnit = { unit_name }
         if (newUnit.unit_name == null)
             return res.status(400).json({
                 error: { message: `Missing 'unit name' in request body.`}
@@ -54,7 +54,7 @@ unitsRouter
                         error: { message: `Unit not found.`}
                     })
                 }
-                res.unit = unit;
+                res.unit = unit
                 next()
             })
             .catch(next)
@@ -73,8 +73,8 @@ unitsRouter
             .catch(next)
     })
     .patch(jsonParser, (req, res, next) => {
-        const { unit_name } = req.body;
-        const unitToUpdate = { unit_name };
+        const { unit_name } = req.body
+        const unitToUpdate = { unit_name }
 
         if (!unit_name) {
                 return res.status(400).json({
@@ -95,4 +95,4 @@ unitsRouter
             .catch(next)
     })
 
-module.exports = unitsRouter;
+module.exports = unitsRouter

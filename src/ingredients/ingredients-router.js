@@ -1,22 +1,22 @@
-const path = require('path');
-const express = require('express');
-const xss = require('xss');
-const IngredientsService = require('./ingredients-service');
+const path = require('path')
+const express = require('express')
+const xss = require('xss')
+const IngredientsService = require('./ingredients-service')
 const { requireAuth } = require('../middleware/jwt-auth')
 
-const ingredientsRouter = express.Router();
-const jsonParser = express.json();
+const ingredientsRouter = express.Router()
+const jsonParser = express.json()
 
 const serializeIngredient = ingredient => ({
     id: ingredient.id,
     name: xss(ingredient.name),
     instructions: xss(ingredient.instructions),
-});
+})
 
 ingredientsRouter
     .route('/')
     .get((req, res, next) => {
-        const knexInstance = req.app.get('db');
+        const knexInstance = req.app.get('db')
         IngredientsService.getAllIngredients(knexInstance)
             .then(ingredients => {
                 res.json(ingredients.map(serializeIngredient))
@@ -24,8 +24,8 @@ ingredientsRouter
             .catch(next)
     })
     .post(requireAuth, jsonParser, (req, res, next) => {
-        const { name, instructions } = req.body;
-        const newIngredient = { name, instructions };
+        const { name, instructions } = req.body
+        const newIngredient = { name, instructions }
         if (newIngredient.name == null)
             return res.status(400).json({
                 error: { message: `Missing 'name' in request body.`}
@@ -56,7 +56,7 @@ ingredientsRouter
                         error: { message: `Ingredient not found.`}
                     })
                 }
-                res.ingredient = ingredient;
+                res.ingredient = ingredient
                 next()
             })
             .catch(next)
@@ -75,8 +75,8 @@ ingredientsRouter
             .catch(next)
     })
     .patch(jsonParser, (req, res, next) => {
-        const { name, instructions } = req.body;
-        const ingredientToUpdate = { name, instructions };
+        const { name, instructions } = req.body
+        const ingredientToUpdate = { name, instructions }
 
         const numberOfValues = Object.values(ingredientToUpdate).filter(Boolean).length
             if (numberOfValues === 0)
@@ -97,4 +97,4 @@ ingredientsRouter
             .catch(next)
     })
 
-module.exports = ingredientsRouter;
+module.exports = ingredientsRouter

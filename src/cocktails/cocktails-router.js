@@ -1,12 +1,12 @@
-const path = require('path');
-const express = require('express');
-const xss = require('xss');
-const CocktailsService = require('./cocktails-service');
-const CocktailIngService = require('../cocktail_ing/cocktailing-service');
+const path = require('path')
+const express = require('express')
+const xss = require('xss')
+const CocktailsService = require('./cocktails-service')
+const CocktailIngService = require('../cocktail_ing/cocktailing-service')
 const { requireAuth } = require('../middleware/jwt-auth')
 
-const cocktailsRouter = express.Router();
-const jsonParser = express.json();
+const cocktailsRouter = express.Router()
+const jsonParser = express.json()
 
 const serializeCocktail = cocktail => ({
     id: cocktail.id,
@@ -21,12 +21,12 @@ const serializeCocktail = cocktail => ({
     user_id: cocktail.user_id,
     collection: cocktail.collection,
     image_src: xss(cocktail.image_src)
-});
+})
 
 cocktailsRouter
     .route('/')
     .get((req, res, next) => {
-        const knexInstance = req.app.get('db');
+        const knexInstance = req.app.get('db')
         if ((!req.query.name) && (!req.query.ingredient)) {
             CocktailsService.getAllCocktails(knexInstance)
                 .then(cocktails => {
@@ -88,7 +88,7 @@ cocktailsRouter
                         error: { message: `Cocktail not found.`}
                     })
                 }
-                res.cocktail = cocktail;
+                res.cocktail = cocktail
                 next()
             })
             .catch(next)
@@ -107,8 +107,8 @@ cocktailsRouter
             .catch(next)
     })
     .patch(jsonParser, (req, res, next) => {
-        const { name, description, created_by, instructions, garnish, glass, notes, ing_instructions, user_id, collection, image_src } = req.body;
-        const cocktailToUpdate = { name, description, created_by, instructions, garnish, glass, notes, ing_instructions, user_id, collection, image_src };
+        const { name, description, created_by, instructions, garnish, glass, notes, ing_instructions, user_id, collection, image_src } = req.body
+        const cocktailToUpdate = { name, description, created_by, instructions, garnish, glass, notes, ing_instructions, user_id, collection, image_src }
 
         const numberOfValues = Object.values(cocktailToUpdate).filter(Boolean).length
             if (numberOfValues === 0)
@@ -132,7 +132,7 @@ cocktailsRouter
 cocktailsRouter
     .route('/:id/ingredients')
     .get((req, res, next) => {
-        const knexInstance = req.app.get('db');
+        const knexInstance = req.app.get('db')
         CocktailIngService.getByCocktailId(knexInstance, req.params.id)
             .then(ingredients => {
                 res.json(ingredients)
@@ -141,4 +141,4 @@ cocktailsRouter
     })
 
 
-module.exports = cocktailsRouter;
+module.exports = cocktailsRouter
